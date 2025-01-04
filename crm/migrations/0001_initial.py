@@ -9,53 +9,184 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Lead',
+            name="Lead",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, validators=[django.core.validators.RegexValidator('^[a-zA-Z\\s]+$', 'Name must contain only letters and spaces.')])),
-                ('email', models.EmailField(max_length=254, unique=True, validators=[django.core.validators.EmailValidator()])),
-                ('phone', models.CharField(max_length=15, validators=[django.core.validators.RegexValidator('^\\+?[0-9\\s\\-]+$', 'Phone number must be valid.')])),
-                ('status', models.CharField(choices=[('new', 'New'), ('contacted', 'Contacted'), ('qualified', 'Qualified'), ('lost', 'Lost')], default='new', max_length=20)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                "^[a-zA-Z\\s]+$",
+                                "Name must contain only letters and spaces.",
+                            )
+                        ],
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        max_length=254,
+                        unique=True,
+                        validators=[django.core.validators.EmailValidator()],
+                    ),
+                ),
+                (
+                    "phone",
+                    models.CharField(
+                        max_length=15,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                "^\\+?[0-9\\s\\-]+$", "Phone number must be valid."
+                            )
+                        ],
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("new", "New"),
+                            ("contacted", "Contacted"),
+                            ("qualified", "Qualified"),
+                            ("lost", "Lost"),
+                        ],
+                        default="new",
+                        max_length=20,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Contact',
+            name="Contact",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[a-zA-Z\\s]+$', 'First name must contain only letters and spaces.')])),
-                ('last_name', models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[a-zA-Z\\s]+$', 'Last name must contain only letters and spaces.')])),
-                ('email', models.EmailField(max_length=254, unique=True, validators=[django.core.validators.EmailValidator()])),
-                ('phone', models.CharField(max_length=15, validators=[django.core.validators.RegexValidator('^\\+?[0-9\\s\\-]+$', 'Phone number must be valid.')])),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('lead', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='contacts', to='crm.lead')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "first_name",
+                    models.CharField(
+                        max_length=50,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                "^[a-zA-Z\\s]+$",
+                                "First name must contain only letters and spaces.",
+                            )
+                        ],
+                    ),
+                ),
+                (
+                    "last_name",
+                    models.CharField(
+                        max_length=50,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                "^[a-zA-Z\\s]+$",
+                                "Last name must contain only letters and spaces.",
+                            )
+                        ],
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        max_length=254,
+                        unique=True,
+                        validators=[django.core.validators.EmailValidator()],
+                    ),
+                ),
+                (
+                    "phone",
+                    models.CharField(
+                        max_length=15,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                "^\\+?[0-9\\s\\-]+$", "Phone number must be valid."
+                            )
+                        ],
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "lead",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="contacts",
+                        to="crm.lead",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Note',
+            name="Note",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('lead', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notes', to='crm.lead')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("content", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "lead",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="notes",
+                        to="crm.lead",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Reminder',
+            name="Reminder",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('scheduled_time', models.DateTimeField()),
-                ('is_sent', models.BooleanField(default=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('lead', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reminders', to='crm.lead')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("scheduled_time", models.DateTimeField()),
+                ("is_sent", models.BooleanField(default=False)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "lead",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reminders",
+                        to="crm.lead",
+                    ),
+                ),
             ],
         ),
     ]

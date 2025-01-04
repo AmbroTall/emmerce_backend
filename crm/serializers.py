@@ -9,6 +9,7 @@ class LeadSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Define Lead Serializer."""
+
         model = Lead
         fields = "__all__"
 
@@ -18,6 +19,7 @@ class ContactSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Define Contact Serializer."""
+
         model = Contact
         fields = "__all__"
 
@@ -27,6 +29,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Define Note Serializer."""
+
         model = Note
         fields = "__all__"
 
@@ -36,5 +39,6 @@ class ReminderSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Define Reminder Serializer."""
+
         model = Reminder
         fields = "__all__"
