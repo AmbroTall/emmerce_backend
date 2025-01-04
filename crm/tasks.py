@@ -1,10 +1,10 @@
 from celery import shared_task
-from django.utils.timezone import now
-from .models import Reminder
 
 @shared_task
-def send_reminder(reminder_id):
+def schedule_reminder(reminder_id):
     """Task to send a reminder."""
+
+    from crm.models import Reminder
     try:
         reminder = Reminder.objects.get(id=reminder_id, is_sent=False)
         # Logic for sending the reminder (e.g., send an email, notification, etc.)

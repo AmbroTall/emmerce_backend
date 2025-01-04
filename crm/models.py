@@ -1,8 +1,9 @@
 """Models for the data storage and strucure."""
 from django.db import models
 from django.core.validators import RegexValidator, EmailValidator
+from crm.tasks import schedule_reminder
 
-# Lead Model
+
 class Lead(models.Model):
     """Lead models."""
     STATUS_CHOICES = [
@@ -23,7 +24,7 @@ class Lead(models.Model):
         """Return the lead name."""
         return self.name
 
-# Contact Model
+
 class Contact(models.Model):
     """Contact models."""
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='contacts')
@@ -39,7 +40,7 @@ class Contact(models.Model):
 
         return f"{self.first_name} {self.last_name}"
 
-# Note Model
+
 class Note(models.Model):
     """Note models."""
 
@@ -51,7 +52,7 @@ class Note(models.Model):
         """Return the name of the note owner."""
         return f"Note for {self.lead.name}"
 
-# Reminder Model
+
 class Reminder(models.Model):
     """Reminder models."""
 
@@ -60,6 +61,13 @@ class Reminder(models.Model):
     scheduled_time = models.DateTimeField()
     is_sent = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # When the reminder is being created (not updated)
+            super().save(*args, **kwargs)  # Save the instance to get an ID
+            schedule_reminder.apply_async(args=[self.id])  # Schedule reminder asynchronously
+        else:
+            super().save(*args, **kwargs)
 
     def __str__(self):
         """Return name owner of the reminder."""
