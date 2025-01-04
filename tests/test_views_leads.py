@@ -1,9 +1,4 @@
-import os
-import django
-
-# Set the settings module explicitly
-os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
-django.setup()
+"""Test Suites For Leads."""
 
 import pytest
 from model_bakery import baker
@@ -16,13 +11,19 @@ from crm.models import Lead
 
 @pytest.mark.django_db
 class TestLeadViewSet:
+    """Test Class for Lead Operations."""
+
     @pytest.fixture(autouse=True)
     def setup(self, client):
-        # This method runs before each test, baking a lead object to be used in tests
+        """This method runs before each test."""
         self.client = client
-        self.lead = baker.make(Lead, name="Test Lead", email="test@example.com")
+        self.lead = baker.make(
+            Lead, name="Test Lead", email="test@example.com"
+        )
 
     def test_create_lead(self):
+        """Test creating a lead."""
+
         data = {
             "name": "New Lead",
             "email": "newlead@example.com",
@@ -41,7 +42,11 @@ class TestLeadViewSet:
         assert response.data["email"] == data["email"]
 
     def test_retrieve_lead(self):
-        url = reverse("crm:lead-detail", kwargs={"pk": str(self.lead.id)})  # Use the baked lead
+        """Test retrieving a single lead."""
+
+        url = reverse(
+            "crm:lead-detail", kwargs={"pk": str(self.lead.id)}
+        )  # Use the baked lead
         response = self.client.get(url, content_type="application/json")
 
         assert response.status_code == status.HTTP_200_OK
@@ -50,8 +55,12 @@ class TestLeadViewSet:
         assert response.data["id"] == self.lead.id
 
     def test_update_lead(self):
+        """Test Updating a lead."""
+
         data = {"name": "Updated Lead"}
-        url = reverse("crm:lead-detail", kwargs={"pk": str(self.lead.id)})  # Use the baked lead
+        url = reverse(
+            "crm:lead-detail", kwargs={"pk": str(self.lead.id)}
+        )  # Use the baked lead
         response = self.client.patch(
             url, data=json.dumps(data), content_type="application/json"
         )
@@ -61,10 +70,12 @@ class TestLeadViewSet:
         assert response.data["id"] == self.lead.id
 
     def test_list_leads(self):
+        """Test Listing a lead."""
+
         baker.make(Lead, name="Lead 1")
         baker.make(Lead, name="Lead 2")
 
-        url = reverse("crm:lead-list")  # Adjust based on your router configuration
+        url = reverse("crm:lead-list")
         response = self.client.get(url, content_type="application/json")
 
         assert response.status_code == status.HTTP_200_OK
@@ -73,7 +84,11 @@ class TestLeadViewSet:
         assert "Lead 2" in [lead["name"] for lead in response.data]
 
     def test_delete_lead(self):
-        url = reverse("crm:lead-detail", kwargs={"pk": str(self.lead.id)})  # Use the baked lead
+        """Test deleting a lead."""
+
+        url = reverse(
+            "crm:lead-detail", kwargs={"pk": str(self.lead.id)}
+        )  # Use the baked lead
         response = self.client.delete(url, content_type="application/json")
 
         assert response.status_code == status.HTTP_204_NO_CONTENT
