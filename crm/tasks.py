@@ -5,7 +5,7 @@ from celery import shared_task
 @shared_task
 def schedule_reminder(reminder_id):
     """Task to send a reminder."""
-git aff
+
     from crm.models import Reminder
 
     try:
