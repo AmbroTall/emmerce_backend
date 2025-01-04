@@ -1,4 +1,5 @@
 """Celery class to schedule reminders."""
+
 from celery import shared_task
 
 

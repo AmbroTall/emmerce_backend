@@ -27,8 +27,9 @@ class Lead(models.Model):
     phone = models.CharField(
         max_length=15,
         validators=[RegexValidator(
-            r"^\+?[0-9\s\-]+$", "Phone number must be valid.")
-        ],
+            r"^\+?[0-9\s\-]+$",
+            "Phone number must be valid."
+        )],
     )
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default="new"
