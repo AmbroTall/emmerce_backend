@@ -1,4 +1,4 @@
-"""Models for the data storage and strucure."""
+"""Models for the data storage and structure."""
 
 from django.db import models
 from django.core.validators import RegexValidator, EmailValidator
