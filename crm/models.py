@@ -31,6 +31,7 @@ class Lead(models.Model):
             "Phone number must be valid."
         )],
     )
+    company = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default="new"
     )
